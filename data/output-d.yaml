@@ -1,0 +1,9 @@
+app_name: Task Manager
+version: 1.2
+features:
+- auth
+- notifications
+- billing
+settings:
+  theme: dark
+  notifications_enabled: true
