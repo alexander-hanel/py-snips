@@ -1,6 +1,6 @@
 """
     Author: Alexander Hanel
-    Description: Python snippets for when LLMs are not allowed/avaliable or for when search engines are too slow.
+    Description:  
     Version: 1
     Last Update: 2026/06/06
 """
@@ -437,3 +437,40 @@ rule ContainsMalwareWord
     rules = yara.compile(source=rule_source)
     matches = rules.match(data=buffer)
     print(matches)
+
+# ------------------------------------------------
+
+def load_env():
+    import os 
+    import importlib.util
+    module_name = "dotenv"
+    module_exists = importlib.util.find_spec(module_name) is not None
+    if module_exists:
+        from dotenv import load_dotenv
+    else:
+        print("Module Not Installed: pip -m install python-dotenv")
+        return
+    
+    load_dotenv()
+    my_var = os.getenv("HOME")
+    print(my_var)
+
+def load_path_env():
+    import os 
+    from pathlib import Path
+    import importlib.util
+    module_name = "dotenv"
+    module_exists = importlib.util.find_spec(module_name) is not None
+    if module_exists:
+        from dotenv import load_dotenv
+    else:
+        print("Module Not Installed: pip -m install python-dotenv")
+        return
+   
+    dotenv_path = Path('data/.env')
+    load_dotenv(dotenv_path=dotenv_path)
+
+    my_var = os.getenv("TEST")
+    print(my_var)
+
+# ------------------------------------------------
