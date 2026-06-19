@@ -231,6 +231,7 @@ def load_yaml():
 # ------------------------------------------------
 
 def crc_data():
+    """crc hash a block of data using zlib"""
     import zlib
     # requires bytes type
     data = b"Hello, World!"
@@ -254,6 +255,7 @@ def hexdump(data=None, chunks_of=16):
 # ------------------------------------------------
 
 def gzip_compress_file():
+    """gzip compress file"""
     import gzip
     from pathlib import Path
     # input and output paths
@@ -265,6 +267,7 @@ def gzip_compress_file():
             f_out.write(f_in.read())
 
 def gzip_decompress_file():
+    """gzip decompress file"""
     import gzip
     from pathlib import Path
     # input and output paths
@@ -277,6 +280,7 @@ def gzip_decompress_file():
             f_out.write(f_in.read())
 
 def gzip_compress_memory():
+    """gzip compress memory"""
     import gzip 
     raw_bytes = b"Compress this specific byte sequence."
     compressed_bytes = gzip.compress(raw_bytes)
@@ -287,6 +291,7 @@ def gzip_compress_memory():
     hexdump(decompressed)
 
 def gzip_decompress_memory():
+    """gzip decompress memory"""
     import gzip 
     raw_bytes = b"Compress this specific byte sequence."
     compressed_bytes = gzip.compress(raw_bytes)
@@ -339,6 +344,7 @@ def zip_decompress_memory():
 # ------------------------------------------------
 
 def hash_data():
+    """example how to hash data and print hex-hash"""
     import hashlib
     byte_data = b"Hello, World!" 
     # uncomment if you need algorithms available 
@@ -387,6 +393,7 @@ def cytype_enum():
 
     # create example bytes and parse them as a ctypes structure
     raw_bytes = struct.pack("<IIIIH", 1, 4096, 8192, 12288, 0)
+    hexdump(raw_bytes)
     func_def = AUXSYMBOLFUNCDEF(raw_bytes)
     print(func_def.tag_index)
     print(func_def.total_size)
@@ -441,6 +448,7 @@ rule ContainsMalwareWord
 # ------------------------------------------------
 
 def load_env():
+    """load enviornmental variables"""
     import os 
     import importlib.util
     module_name = "dotenv"
@@ -456,6 +464,7 @@ def load_env():
     print(my_var)
 
 def load_path_env():
+    """load enviornmental variables from a .env file"""
     import os 
     from pathlib import Path
     import importlib.util
@@ -469,8 +478,73 @@ def load_path_env():
    
     dotenv_path = Path('data/.env')
     load_dotenv(dotenv_path=dotenv_path)
-
     my_var = os.getenv("TEST")
     print(my_var)
 
 # ------------------------------------------------
+
+def interquartile_range(values):
+    """use interquartile range to find outliers within a list"""
+    def median(values):
+        n = len(values)
+        if n % 2 == 1:
+            return values[n // 2]
+        return (values[n // 2 - 1] + values[n // 2]) / 2
+    
+    def quartiles(values):
+        values = sorted(values)
+        n = len(values)
+        mid = n // 2
+        if n % 2 == 0:
+            lower = values[:mid]
+            upper = values[mid:]
+        else:
+            lower = values[:mid]
+            upper = values[mid + 1:]
+        q1 = median(lower)
+        q3 = median(upper)
+        return q1, q3
+
+    def find_outliers(values):
+        q1, q3 = quartiles(values)
+        iqr = q3 - q1
+        lower_bound = q1 - (1.5 * iqr)
+        upper_bound = q3 + (1.5 * iqr)
+        return [
+            value
+            for value in values
+            if value < lower_bound or value > upper_bound
+        ]
+    
+    # validate types 
+    if not isinstance(values, list):
+        print("Incorrect type: pass list of integers")
+        return None 
+    if False in [isinstance(x, int) for x in values]:
+        print("Incorrect type: pass list of integers")
+        return None 
+    print(find_outliers(values))
+
+# print(interquartile_range([12, 14, 13, 15, 16, 14, 15, 13, 400]))
+
+# ------------------------------------------------
+
+def f_strings():
+    """common f string operations"""
+    example_str = "Hello, World"
+    example_num = 111
+    # variable name must be surrunded by { } 
+    print(f"{example_str}, {example_num}")
+    # note <, > and ^ 
+    # left align 
+    print(f"|{example_str:<22}|")
+    # right align 
+    print(f"|{example_str:>22}|")
+    # center align 
+    print(f"|{example_str:^22}|")
+    # numbers, decimal .IntSpaceF 
+    print(f"{example_num:.2f}")
+    # 0 is the pad, 10 is the total width .3f is the padding of decimal  
+    print(f"{example_num:010.3f}")
+    # format hex  
+    print(f"{example_num:#x}")
