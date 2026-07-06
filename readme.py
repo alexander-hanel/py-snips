@@ -548,3 +548,16 @@ def f_strings():
     print(f"{example_num:010.3f}")
     # format hex  
     print(f"{example_num:#x}")
+
+
+def activate_venv():
+    print(""" 
+    python -m venv myenv
+    source myenv/bin/activate # bash 
+    myenv\\Scripts\\activate.bat # windows 
+    deactivate # leave 
+    rm -rf myenv # delete on linux 
+    rmdir /s /q myenv # delete via powershell 
+    """)
+
+activate_venv()
