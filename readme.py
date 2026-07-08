@@ -163,12 +163,13 @@ def logging_example():
             logging.FileHandler("app.log", mode="a"),  # Appends to a file
         ]
     ) 
-    # log to file 
+    # log to FILE! 
     logging.debug("This will not log to a file")        
     logging.info("Will log to a file")       
     logging.warning("Will log to a file")        
     logging.error("Will log to a file")     
     
+    # log to STDOUT!
     # change the configuration to log only to stdout
     logging.basicConfig(
         level=logging.DEBUG,
@@ -560,4 +561,8 @@ def activate_venv():
     rmdir /s /q myenv # delete via powershell 
     """)
 
-activate_venv()
+def main():
+    pass 
+
+if __name__ == "__main__":
+    main()
