@@ -40,7 +40,7 @@ def load_large_json(file_path):
     from pathlib import Path
     
     path_file = Path(file_path)
-    if file_path.exist():
+    if path_file.exists():
         try:
             with path_file.open("r", encoding="utf-8") as file:
                 data = json.load(file)
